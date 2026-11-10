@@ -22,7 +22,7 @@ DESCRIPTION = """
 Human Resources API for teaching deploys on Render.
 
 ## Preview
-* `/preview` returns random employee rows from the dataset
+* `/preview` returns random employee rows from the dataset (this is just a preview)
 * `/unique-values` lists valid values for a column (useful before predicting)
 
 ## Predict
