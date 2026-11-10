@@ -21,8 +21,8 @@ MODEL_PATH = Path(
 DESCRIPTION = """
 Human Resources API for teaching deploys on Render.
 
-## Preview
-* `/preview` returns random employee rows from the dataset (this is just a preview)
+## Previews
+* `/previews` returns random employee rows from the dataset (this is just previews)
 * `/unique-values` lists valid values for a column (useful before predicting)
 
 ## Predict
@@ -32,7 +32,7 @@ Human Resources API for teaching deploys on Render.
 Swagger shows a placeholder like `"additionalProp1": {}` — **delete that** and paste real
 column names and values instead.
 
-1. Call **GET `/preview?rows=1`** and copy the returned employee object.
+1. Call **GET `/previews?rows=1`** and copy the returned employee object.
 2. Remove the `"Attrition"` field (that is the label the model predicts).
 3. Wrap the remaining fields inside `"features": { ... }`.
 4. Keep every other field, including `"Unnamed: 0"`.
@@ -101,7 +101,7 @@ class AttritionInput(BaseModel):
     features: dict[str, Any] = Field(
         description=(
             "Employee fields expected by the model. Do not include `Attrition`. "
-            "Easiest workflow: copy one row from GET /preview, remove `Attrition`, "
+            "Easiest workflow: copy one row from GET /previews, remove `Attrition`, "
             "and paste the rest here."
         )
     )
@@ -132,7 +132,7 @@ async def health():
     }
 
 
-@app.get("/preview")
+@app.get("/previews")
 async def preview(rows: int = 10):
     if df is None:
         raise HTTPException(status_code=500, detail="Data not loaded.")
@@ -157,7 +157,7 @@ async def predict_attrition(
             "sample_employee": {
                 "summary": "Ready-to-run employee example",
                 "description": (
-                    "Copy a row from GET /preview, remove Attrition, and wrap the "
+                    "Copy a row from GET /previews, remove Attrition, and wrap the "
                     "remaining fields in features. This example works as-is."
                 ),
                 "value": {"features": SAMPLE_EMPLOYEE_FEATURES},
